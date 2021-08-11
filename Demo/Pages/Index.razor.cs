@@ -14,7 +14,7 @@ namespace Demo.Pages
 {
     public partial class Index
     {
-        public int Test { get; set; }
+        public int Test1 { get; set; }
         public List<Employee> Employees { get; set; } = new List<Employee>();
         [Inject]
         public IEmployeeRepository _repository { get; set; }
