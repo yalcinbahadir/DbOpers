@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Shared;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,18 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    public class ApplicationDbContext :DbContext
+
+    public partial class ApplicationDbContext :DbContext
     {
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
         {
-
+            
+           
         }
+
+      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -69,5 +74,6 @@ namespace DataAccess
             new Employee { Id = 25, FirstName = "Silvia", LastName = "Winter", DateOfBirth = new DateTime(2004, 01, 01), Description = "Description of Donald", Email = "Donald@test.com", Gender = Gender.Male, IsMarried = false, DepartmentId = 3 },
         };
 
+        
     }
 }

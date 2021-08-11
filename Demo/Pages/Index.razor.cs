@@ -1,4 +1,5 @@
 ﻿using DataAccess;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Shared;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telerik.Blazor.Components;
 
+
 namespace Demo.Pages
 {
     public partial class Index
@@ -15,10 +17,12 @@ namespace Demo.Pages
        
         public List<Employee> Employees { get; set; } = new List<Employee>();
         [Inject]
-        public ApplicationDbContext _context { get; set; }
+        public IEmployeeRepository _repository { get; set; }
+        [Inject]
+        private ApplicationDbContext _context { get; set; }
         protected override Task OnInitializedAsync()
         {
-            Employees = _context.Employees.Include(e=>e.Department).ToList();
+            Employees = _repository.Get().ToList();
             return base.OnInitializedAsync();
         }
 
@@ -33,9 +37,13 @@ namespace Demo.Pages
         private void UpdateEmployee(GridCommandEventArgs args)
         {
             var employee = (Employee)args.Item;
-            var empToUpdate = Employees.FirstOrDefault(e=>e.Id==employee.Id);
-            empToUpdate.FirstName = employee.FirstName;
-            _context.SaveChanges();
+            if (employee is not null)
+            {
+                _repository.Update(employee);
+            }
+           
+            
+
             UpdateUI();
         }
         private void DeleteEmployee(GridCommandEventArgs args)

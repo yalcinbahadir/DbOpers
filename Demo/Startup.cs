@@ -1,4 +1,5 @@
 using DataAccess;
+using DataAccess.Repositories;
 using Demo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -34,6 +35,7 @@ namespace Demo
 
             services.AddTelerikBlazor();
             services.AddDbContext<ApplicationDbContext>(options=> { options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")); });
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
